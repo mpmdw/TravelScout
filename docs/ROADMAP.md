@@ -26,7 +26,7 @@ present but not yet exercised with a real key; optional HTTP Basic auth gate; no
 
 ## Phase 1 — Real data integrations  *(the core of "make it real")*
 
-- [ ] **P1.1 — Real flight-search adapter**
+- [x] **P1.1 — Real flight-search adapter** ✅ *(Amadeus; merged)*
   - **Goal:** Live itineraries from a real provider (**Amadeus** recommended; Aviationstack / AeroDataBox as alternatives).
   - **Touch:** `src/lib/providers/flights.ts`, `src/lib/config.ts`, `.env.example`.
   - **Done:** With `FLIGHT_API_KEY` set, `/api/flights` returns live results mapped into `FlightItinerary[]`; falls back to mock when absent; per-(origin,destination) in-memory cache; provider/network errors degrade gracefully to mock with a `note`.
