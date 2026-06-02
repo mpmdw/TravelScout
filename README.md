@@ -94,6 +94,10 @@ Edit `src/lib/dangerZones.ts`. Each zone is a coarse `[lng, lat]` outline; the r
 Next.js 15 (App Router) · React 19 · TypeScript · Leaflet + OpenStreetMap · Turf.js (geometry) ·
 Anthropic SDK. Access gate via Next.js middleware.
 
+## Roadmap
+See **[`docs/ROADMAP.md`](docs/ROADMAP.md)** for the staged, ship-it-for-real development plan —
+phases broken into PR-sized agent tasks (Goal / Files / Acceptance / Dependencies).
+
 ## Project layout
 ```
 src/
