@@ -1,5 +1,5 @@
 import { FlightStatus } from "../types";
-import { hasFlightApi } from "../config";
+import { hasFlightStatus } from "../config";
 
 export interface FlightStatusResult {
   status: FlightStatus | null;
@@ -29,7 +29,7 @@ export async function getFlightStatus(
   const flightNumber = (q.flightNumber || "").trim().toUpperCase();
   const date = q.date || new Date().toISOString().slice(0, 10);
 
-  if (hasFlightApi() && flightNumber) {
+  if (hasFlightStatus() && flightNumber) {
     // TODO(real API): look up by flightNumber + date and map to FlightStatus.
     return {
       status: mockStatus(flightNumber, date, q.confirmationRef),

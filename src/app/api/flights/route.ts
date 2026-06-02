@@ -5,7 +5,7 @@ import { Place } from "@/lib/types";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
-  let body: { origin?: Place; destination?: Place };
+  let body: { origin?: Place; destination?: Place; date?: string };
   try {
     body = await req.json();
   } catch {
@@ -23,6 +23,6 @@ export async function POST(req: Request) {
     );
   }
 
-  const result = await searchFlights(origin, destination);
+  const result = await searchFlights(origin, destination, { date: body.date });
   return NextResponse.json(result);
 }

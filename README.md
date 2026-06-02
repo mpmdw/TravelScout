@@ -23,7 +23,8 @@ data. Run the whole app immediately and "turn on" each piece when you have its k
 | Feature | Without a key | With a key |
 |---|---|---|
 | Map + routing + avoidance | ✅ full (OpenStreetMap — never needs a key) | — |
-| Flight search / status | ✅ mock | `FLIGHT_API_KEY` → live adapter (seam ready) |
+| Flight search | ✅ mock | `AMADEUS_CLIENT_ID` + `AMADEUS_CLIENT_SECRET` → live (Amadeus) |
+| Flight status | ✅ mock | `FLIGHT_STATUS_API_KEY` → live (later step) |
 | Live risk | ✅ mock | `ANTHROPIC_API_KEY` → Claude web search |
 
 ## Quick start
@@ -40,7 +41,9 @@ Copy `.env.example` → `.env.local`. Everything is optional:
 |---|---|
 | `ANTHROPIC_API_KEY` | Live geopolitical risk via Claude web search |
 | `ANTHROPIC_MODEL` | Model to use (default `claude-sonnet-4-6`) |
-| `FLIGHT_API_KEY` / `FLIGHT_API_BASE` | Live flight search/status (adapter seam) |
+| `AMADEUS_CLIENT_ID` / `AMADEUS_CLIENT_SECRET` | Live flight **search** via Amadeus (free self-service) |
+| `AMADEUS_HOSTNAME` | Amadeus host (`test.api.amadeus.com` default; `api.amadeus.com` for prod) |
+| `FLIGHT_STATUS_API_KEY` | Live flight **status** provider (wired in a later step) |
 | `BASIC_AUTH_USER` / `BASIC_AUTH_PASS` | Enable the login gate (set **both**) |
 
 ## Two ways to host it
@@ -78,7 +81,7 @@ auth gate applies.
 
 ## Wiring real data later
 The integration points are marked with `TODO(real API)`:
-- `src/lib/providers/flights.ts` — map your provider (Amadeus / Aviationstack / AeroDataBox) into `FlightItinerary[]`.
+- `src/lib/providers/flights.ts` — **flight search is wired to Amadeus** (set `AMADEUS_CLIENT_ID`/`SECRET`; falls back to mock without them).
 - `src/lib/providers/flightStatus.ts` — look up by flight number + date.
 - `src/lib/providers/geoIntel.ts` — already calls Claude with the `web_search` tool when `ANTHROPIC_API_KEY` is set.
 
