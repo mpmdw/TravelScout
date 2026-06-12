@@ -12,6 +12,10 @@ present but not yet exercised with a real key; optional HTTP Basic auth gate; no
 
 ## Working this roadmap (for agents)
 
+- **Each task has a full execution spec in [`docs/specs/`](specs/README.md)** — context,
+  pre-made design decisions, step-by-step plan, acceptance criteria, and verification
+  commands. Start there: read [`specs/README.md`](specs/README.md) (conventions + staged
+  waves), then the task's spec.
 - **One task = one branch/PR**, named `feat/<task-id>-<slug>` (e.g. `feat/p1.1-amadeus-flights`).
 - **Preserve shadow mode**: every feature must keep working on mock data when its key is absent.
 - Each task lists **Goal / Touch / Done / After**:
