@@ -82,15 +82,15 @@ a{color:inherit}
 .stop-link:hover circle.dot,.stop-link:focus-visible circle.dot{r:14}
 
 /* ---------- city panels ---------- */
-.city{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;background:#140f22;isolation:isolate}
+.city{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;background:radial-gradient(120% 90% at 70% 20%,color-mix(in srgb,var(--c) 35%,#0D1320),#0D1320);isolation:isolate}
 .city .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;display:block}
 .city .scrim{position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:linear-gradient(to top,rgba(7,9,16,.94) 0%,rgba(7,9,16,.72) 30%,rgba(7,9,16,.18) 58%,rgba(7,9,16,0) 72%)}
+  background:linear-gradient(to top,rgba(7,9,16,.95) 0%,rgba(7,9,16,.78) 32%,rgba(7,9,16,.3) 60%,rgba(7,9,16,.12) 100%)}
 @media (min-width:900px){.city .scrim{background:
-  linear-gradient(to top,rgba(7,9,16,.9) 0%,rgba(7,9,16,.45) 32%,rgba(7,9,16,0) 60%),
+  linear-gradient(to top,rgba(7,9,16,.92) 0%,rgba(7,9,16,.5) 34%,rgba(7,9,16,.08) 62%),
   linear-gradient(to right,rgba(7,9,16,.7) 0%,rgba(7,9,16,.25) 40%,rgba(7,9,16,0) 60%)}}
 .city-body{position:relative;width:100%;max-width:820px;padding-block:34vh clamp(40px,7vh,80px)}
-@media (max-aspect-ratio:1/1){.city-body{padding-block:48vh 40px}}
+@media (max-aspect-ratio:1/1){.city-body{padding-top:44vh}}
 .stop{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font:500 12px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.8);margin:0}
 .stop .num{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--c);color:#12101a;font-weight:500;letter-spacing:0}
 .city-name{font:900 clamp(76px,17vw,216px)/.82 var(--display);text-transform:uppercase;letter-spacing:.005em;margin:14px 0 0;
@@ -141,6 +141,10 @@ a{color:inherit}
 .lines .amt{grid-row:1/3;grid-column:3;font:500 16px/1 var(--mono);font-variant-numeric:tabular-nums;align-self:center}
 .lines li.excl .amt{color:var(--faint)}
 .fine{font-size:14px;color:var(--faint);margin:22px 0 0;max-width:72ch}
+.credit{position:absolute;right:var(--gutter);bottom:14px;z-index:3;margin:0;font:500 11px/1.3 var(--mono);letter-spacing:.04em;color:rgba(255,255,255,.62);text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.credit a{color:rgba(255,255,255,.85);text-underline-offset:2px}
+@media (max-width:560px){.credit{right:auto;left:var(--gutter);bottom:10px}.city-body{padding-bottom:44px}}
+footer p{margin:0 0 6px}footer a{color:var(--muted)}
 footer{padding-block:28px 40px;border-top:1px solid var(--line);font:500 12px/1.5 var(--mono);letter-spacing:.06em;color:var(--faint)}
 </style>
 </head>
@@ -206,7 +210,7 @@ footer{padding-block:28px 40px;border-top:1px solid var(--line);font:500 12px/1.
   <p class="fine">Rough June estimates in US dollars, built from typical prices for each travel style. Hotels assume two people per room. Flights to Barcelona and home from Rome depend on where you start, so they're left out. Check live prices before you book.</p>
 </section>
 
-<footer class="wrap">Barcelona → Paris → Grindelwald → London → Rome · 21 days</footer>
+<footer class="wrap"><p>Barcelona → Paris → Grindelwald → London → Rome · 21 days</p><p id="credits"></p></footer>
 
 <script>
 (() => {
@@ -215,26 +219,26 @@ footer{padding-block:28px 40px;border-top:1px solid var(--line);font:500 12px/1.
 /* ================= trip data ================= */
 const CITIES = [
   { id:"barcelona", code:"BCN", name:"Barcelona", country:"Spain", nights:4, color:"#FF8A5B",
-    lon:2.17, lat:41.39, label:[16,20,"start"], photo:"",
+    lon:2.17, lat:41.39, label:[16,20,"start"], photo:{ id:"j4eJ3gXlVQ0", by:"Siyuan", byURL:"https://unsplash.com/@jsycra", alt:"Sagrada Família during golden hour", pos:"center 35%" },
     blurb:"Start the trip with sun on your shoulders. Mornings at Gaudí's Sagrada Família and Park Güell, afternoons on Barceloneta beach, and dinner no earlier than nine, the way the city intends. It's the easiest place in Europe to fall into a celebratory mood.",
     arrive:{ mode:"flyin" } },
   { id:"paris", code:"PAR", name:"Paris", country:"France", nights:4, color:"#A9B8FF",
-    lon:2.35, lat:48.86, label:[-16,-4,"end"], photo:"",
+    lon:2.35, lat:48.86, label:[-16,-4,"end"], photo:{ id:"Q0-fOL2nqZc", by:"Anthony Delanoix", byURL:"https://unsplash.com/photos/eiffel-tower-during-daytime-Q0-fOL2nqZc", alt:"Eiffel Tower during daytime", pos:"center 30%" },
     blurb:"Paris does grandeur without trying: the Louvre, the Seine at golden hour, and the Eiffel Tower sparkling for five minutes every hour after dark. Four nights leaves room for slow café mornings in the Marais and one long dinner you'll talk about for years.",
     arrive:{ mode:"fly", from:"Barcelona", fromCode:"BCN",
       note:"Prefer the train? The direct high-speed TGV from Barcelona Sants takes about 6h 30m." } },
   { id:"grindelwald", code:"GRW", name:"Grindelwald", country:"Switzerland", nights:3, color:"#6FD3B8",
-    lon:8.04, lat:46.62, label:[16,6,"start"], photo:"",
+    lon:8.04, lat:46.62, label:[16,6,"start"], photo:{ id:"sd7jrJZPidA", by:"Peter Steiner", byURL:"https://unsplash.com/photos/sd7jrJZPidA", alt:"A chalet below the mountains in Grindelwald", pos:"center 40%" },
     blurb:"Three quiet nights under the Eiger's north face. Ride up to Jungfraujoch, at 3,454 m the highest railway station in Europe, then walk flower meadows back toward the village. After two big cities, the mountain air is the whole point.",
     arrive:{ mode:"train",
       note:'About 6 hours: TGV Lyria from Paris Gare de Lyon to Basel, then Swiss trains via Interlaken. Book the French leg on <a href="https://www.sncf-connect.com/en-en/" target="_blank" rel="noopener">SNCF Connect</a> and the Swiss leg on <a href="https://www.sbb.ch/en" target="_blank" rel="noopener">SBB</a>.' } },
   { id:"london", code:"LON", name:"London", country:"England", nights:4, color:"#FF6166",
-    lon:-0.13, lat:51.51, label:[-16,-4,"end"], photo:"",
+    lon:-0.13, lat:51.51, label:[-16,-4,"end"], photo:{ id:"-_dNQHgv0kI", by:"Michael D Beckwith", byURL:"https://unsplash.com/@michael_david_beckwith", alt:"Big Ben and the Palace of Westminster", pos:"center 35%" },
     blurb:"Everything is in English, most of the great museums are free, and every neighbourhood feels like its own town. See Westminster and the Tower, catch a West End show, and spend a Sunday at Borough Market and along the South Bank.",
     arrive:{ mode:"fly", from:"Zurich", fromCode:"ZRH",
       note:"First take the train from Grindelwald to Zurich Airport, about 2h 45m with two easy changes." } },
   { id:"rome", code:"ROM", name:"Rome", country:"Italy", nights:5, color:"#F2C14E",
-    lon:12.50, lat:41.90, label:[16,16,"start"], photo:"",
+    lon:12.50, lat:41.90, label:[16,16,"start"], photo:{ id:"VFRTXGw1VjU", by:"David Köhler", byURL:"https://unsplash.com/photos/colosseum-arena-photography-VFRTXGw1VjU", alt:"The Colosseum at the blue hour before sunrise", pos:"center 45%" },
     blurb:"The grand finale. Walk from the Colosseum through the Forum to the Pantheon in one afternoon, see the Sistine Chapel early, then eat your way through Trastevere: cacio e pepe, supplì, carbonara, gelato twice a day. Five nights still won't feel like enough.",
     arrive:{ mode:"fly", from:"London", fromCode:"LON" }, flyHome:true },
 ];
@@ -282,6 +286,9 @@ const btn = (cls,icon,title,sub,href) =>
   `<a class="btn ${cls}" href="${href}" target="_blank" rel="noopener">${ICON[icon]}<span><b>${title}</b><small>${sub}</small></span><i class="arr" aria-hidden="true">↗</i></a>`;
 const esc = s => s.replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
 
+/* ================= photos (Unsplash License; credited on each panel and in the footer) ================= */
+const photoSrc = id => `https://unsplash.com/photos/${id}/download?w=2400`;
+
 /* ================= render: static structure ================= */
 const $ = id => document.getElementById(id);
 $("chips").innerHTML = CITIES.map(c => `<a class="chip" href="#${c.id}" style="--c:${c.color}" data-id="${c.id}"><i></i>${c.code}</a>`).join("") +
@@ -289,8 +296,9 @@ $("chips").innerHTML = CITIES.map(c => `<a class="chip" href="#${c.id}" style="-
 
 $("cities").innerHTML = CITIES.map((c,i) => `
 <section class="city" id="${c.id}" style="--c:${c.color}" aria-labelledby="${c.id}-h">
-  <canvas class="poster" aria-hidden="true"></canvas>
+  <img class="poster" src="${photoSrc(c.photo.id)}" alt="${c.photo.alt}" style="object-position:${c.photo.pos}" ${i ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async" onerror="this.remove()">
   <div class="scrim"></div>
+  <p class="credit">Photo: <a href="${c.photo.byURL}${c.photo.byURL.includes("/@") ? "?utm_source=barcelona_to_rome&utm_medium=referral" : ""}" target="_blank" rel="noopener">${c.photo.by}</a> on <a href="https://unsplash.com/photos/${c.photo.id}?utm_source=barcelona_to_rome&utm_medium=referral" target="_blank" rel="noopener">Unsplash</a></p>
   <div class="city-body wrap">
     <p class="stop"><span class="num">${i+1}</span><span>Stop ${i+1} of 5</span><span>·</span><span data-range></span></p>
     <h2 class="city-name" id="${c.id}-h" data-fit>${c.name}</h2>
@@ -445,309 +453,6 @@ function drawMap(){
   svg.innerHTML = s;
 }
 
-/* ================= poster art (canvas) ================= */
-const TAU = Math.PI*2;
-const rng = seed => () => { seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed>>>15, 1|seed); t = t + Math.imul(t ^ t>>>7, 61|t) ^ t; return ((t ^ t>>>14) >>> 0) / 4294967296; };
-const rgb = c => { const n = parseInt(c.slice(1),16); return [n>>16&255, n>>8&255, n&255]; };
-const mix = (a,b,t) => { const A=rgb(a), B=rgb(b); return `rgb(${A.map((v,i)=>Math.round(v+(B[i]-v)*t)).join(",")})`; };
-function bands(ctx,y0,y1,w,stops,n){ // posterised gradient, like a lithograph
-  const h = (y1-y0)/n;
-  for (let i=0;i<n;i++){ const t=i/(n-1), seg=t*(stops.length-1), k=Math.min(Math.floor(seg),stops.length-2);
-    ctx.fillStyle = mix(stops[k],stops[k+1],seg-k); ctx.fillRect(0,y0+i*h,w,h+1); }
-}
-function poly(ctx,pts,fill){ ctx.beginPath(); pts.forEach(([x,y],i)=> i?ctx.lineTo(x,y):ctx.moveTo(x,y)); ctx.closePath(); ctx.fillStyle=fill; ctx.fill(); }
-function hills(ctx,w,base,amps,fill,bottom,seed){
-  const r=rng(seed), ph=amps.map(()=>r()*TAU), fr=amps.map((_,i)=>(i+1)*(0.7+r()*0.7));
-  ctx.beginPath(); ctx.moveTo(0,bottom);
-  for (let x=0;x<=w+4;x+=4){ let y=base; amps.forEach((a,i)=> y += Math.sin(x/w*TAU*fr[i]+ph[i])*a); ctx.lineTo(x,y); }
-  ctx.lineTo(w,bottom); ctx.closePath(); ctx.fillStyle=fill; ctx.fill();
-}
-function disc(ctx,x,y,r,fill){ ctx.beginPath(); ctx.arc(x,y,r,0,TAU); ctx.fillStyle=fill; ctx.fill(); }
-let NOISE;
-function grain(ctx,w,h){
-  if (!NOISE){ NOISE=document.createElement("canvas"); NOISE.width=NOISE.height=180; const g=NOISE.getContext("2d"), im=g.createImageData(180,180), r=rng(99);
-    for (let i=0;i<im.data.length;i+=4){ const v=r()*255; im.data[i]=im.data[i+1]=im.data[i+2]=v; im.data[i+3]=255; } g.putImageData(im,0,0); }
-  ctx.save(); ctx.globalAlpha=.06; ctx.globalCompositeOperation="overlay"; ctx.fillStyle=ctx.createPattern(NOISE,"repeat"); ctx.fillRect(0,0,w,h); ctx.restore();
-  const v=ctx.createRadialGradient(w/2,h*.45,Math.min(w,h)*.3,w/2,h*.45,Math.max(w,h)*.8);
-  v.addColorStop(0,"rgba(0,0,0,0)"); v.addColorStop(1,"rgba(0,0,0,.35)"); ctx.fillStyle=v; ctx.fillRect(0,0,w,h);
-}
-function palm(ctx,x,base,H,lean,col){
-  const tx=x+lean, ty=base-H;
-  ctx.strokeStyle=col; ctx.lineCap="round"; ctx.lineWidth=H*.045;
-  ctx.beginPath(); ctx.moveTo(x,base); ctx.quadraticCurveTo(x+lean*.2,base-H*.55,tx,ty); ctx.stroke();
-  ctx.fillStyle=col;
-  [[-1,.1],[-.8,-.35],[-.45,-.6],[.1,-.7],[.5,-.55],[.85,-.3],[1,.12]].forEach(([dx,dy])=>{
-    const ex=tx+dx*H*.42, ey=ty+dy*H*.28+H*.18*Math.abs(dx);
-    ctx.beginPath(); ctx.moveTo(tx,ty);
-    ctx.quadraticCurveTo(tx+dx*H*.2, ty+dy*H*.32-H*.06, ex, ey);
-    ctx.quadraticCurveTo(tx+dx*H*.22, ty+dy*H*.18, tx, ty+H*.03); ctx.fill();
-  });
-}
-
-/* -- Barcelona: Sagrada Família across the bay at sunset -- */
-function sagrada(ctx,cx,base,H,col,gold){
-  ctx.fillStyle=col;
-  const spire=(x,hgt,wd)=>{ const top=base-hgt*H, w=wd*H, sh=hgt*H;
-    ctx.beginPath(); ctx.moveTo(x-w,base); ctx.lineTo(x-w,top+sh*.32);
-    ctx.bezierCurveTo(x-w,top+sh*.1,x-w*.3,top+sh*.02,x,top);
-    ctx.bezierCurveTo(x+w*.3,top+sh*.02,x+w,top+sh*.1,x+w,top+sh*.32);
-    ctx.lineTo(x+w,base); ctx.closePath(); ctx.fill();
-    return top; };
-  ctx.fillRect(cx-H*.44,base-H*.26,H*.88,H*.26);
-  poly(ctx,[[cx-H*.3,base-H*.26],[cx,base-H*.42],[cx+H*.3,base-H*.26]],col);
-  const tops=[];
-  [[-.41,.5],[-.35,.6],[-.29,.6],[-.23,.5],[.23,.48],[.29,.57],[.35,.57],[.41,.48]].forEach(([x,h])=> tops.push([cx+x*H, spire(cx+x*H,h,.024)]));
-  [[-.14,.7,.03],[.14,.7,.03],[-.075,.8,.033],[.075,.8,.033]].forEach(([x,h,w])=> tops.push([cx+x*H, spire(cx+x*H,h,w)]));
-  const jt=spire(cx,1,.048);
-  ctx.fillRect(cx-H*.004,jt-H*.07,H*.008,H*.07); ctx.fillRect(cx-H*.025,jt-H*.052,H*.05,H*.008);
-  ctx.fillStyle=gold; disc(ctx,cx,jt-H*.048,H*.007,gold);
-  tops.forEach(([x,y])=> disc(ctx,x,y-H*.004,H*.009,gold));
-  ctx.globalAlpha=.28; ctx.fillStyle=gold;
-  tops.forEach(([x,y])=>{ for (let k=0;k<4;k++) ctx.fillRect(x-H*.003,y+H*(.08+k*.07),H*.006,H*.035); });
-  for (let k=0;k<7;k++) ctx.fillRect(cx-H*.006,jt+H*(.12+k*.1),H*.012,H*.05);
-  ctx.globalAlpha=1;
-}
-function drawBCN(ctx,w,h,P){
-  const {hz,L,ax,portrait}=P, r=rng(7);
-  bands(ctx,0,hz,w,["#2A1D58","#6E2D6C","#C94A6C","#F0824E","#FBC66C"],16);
-  const sx=portrait?w*.26:w*.4; disc(ctx,sx,hz-L*.1,L*.19,"#FFE2A0"); disc(ctx,sx,hz-L*.1,L*.25,"rgba(255,226,160,.12)");
-  hills(ctx,w,hz-L*.05,[L*.035,L*.015],"#7A3A68",hz+2,3);
-  ctx.fillStyle="#5A2B5E"; for (let x=0;x<w;){ const bw=L*(.025+r()*.05), bh=L*(.02+r()*.08); ctx.fillRect(x,hz-bh,bw,bh+2); x+=bw; }
-  sagrada(ctx,ax,hz+1,L,"#2A1640","#FFCF72");
-  const seaB=hz+(h-hz)*.46;
-  bands(ctx,hz,seaB,w,["#E88D72","#9C4C78","#3B3B7E","#26306A"],8);
-  ctx.fillStyle="rgba(255,226,160,.7)";
-  for (let i=0;i<9;i++){ const y=hz+6+i*(seaB-hz)/10, ww=L*(.16-i*.013)*(1+r()*.3); ctx.fillRect(sx-ww/2+(r()-.5)*L*.04,y,ww,Math.max(2,L*.006)); }
-  ctx.beginPath(); ctx.moveTo(0,h); ctx.lineTo(0,seaB-L*.02); ctx.quadraticCurveTo(w*.55,seaB-L*.06,w,seaB+L*.12); ctx.lineTo(w,h); ctx.closePath(); ctx.fillStyle="#E4A466"; ctx.fill();
-  ctx.beginPath(); ctx.moveTo(0,h); ctx.lineTo(0,seaB+L*.1); ctx.quadraticCurveTo(w*.6,seaB+L*.06,w,seaB+L*.3); ctx.lineTo(w,h); ctx.closePath(); ctx.fillStyle="#C9804F"; ctx.fill();
-  ctx.strokeStyle="rgba(255,240,220,.55)"; ctx.lineWidth=Math.max(1.5,L*.005);
-  ctx.beginPath(); ctx.moveTo(0,seaB-L*.02); ctx.quadraticCurveTo(w*.55,seaB-L*.06,w,seaB+L*.12); ctx.stroke();
-  palm(ctx,w*.06,h*.98,L*.95,L*.12,"#1C1030");
-  palm(ctx,w*.14,h,L*.7,-L*.08,"#231437");
-  palm(ctx,w*.97,h,L*.85,-L*.14,"#1C1030");
-}
-
-/* -- Paris: Eiffel Tower over zinc rooftops at dusk -- */
-function eiffel(ctx,cx,base,H,col,light){
-  const X=f=>cx+f*H, Y=f=>base-f*H;
-  ctx.beginPath(); ctx.moveTo(X(-.2),Y(0));
-  ctx.quadraticCurveTo(X(-.14),Y(.1),X(-.105),Y(.19)); ctx.lineTo(X(-.062),Y(.38));
-  ctx.quadraticCurveTo(X(-.03),Y(.62),X(-.014),Y(.86)); ctx.lineTo(X(-.005),Y(.9)); ctx.lineTo(X(-.003),Y(1)); ctx.lineTo(X(.003),Y(1)); ctx.lineTo(X(.005),Y(.9)); ctx.lineTo(X(.014),Y(.86));
-  ctx.quadraticCurveTo(X(.03),Y(.62),X(.062),Y(.38)); ctx.lineTo(X(.105),Y(.19)); ctx.quadraticCurveTo(X(.14),Y(.1),X(.2),Y(0));
-  ctx.lineTo(X(.14),Y(0)); ctx.ellipse(cx,base,H*.14,H*.125,0,0,Math.PI,true); ctx.closePath();
-  ctx.fillStyle=col; ctx.fill();
-  ctx.fillRect(X(-.13),Y(.2),H*.26,H*.028); ctx.fillRect(X(-.078),Y(.392),H*.156,H*.018); ctx.fillRect(X(-.022),Y(.87),H*.044,H*.016);
-  ctx.save(); ctx.globalAlpha=.22; ctx.strokeStyle=light; ctx.lineWidth=Math.max(1,H*.003);
-  const cross=(y0,y1,w0,w1,n)=>{ for(let i=0;i<n;i++){ const a=y0+(y1-y0)*i/n, b=y0+(y1-y0)*(i+1)/n, wa=w0+(w1-w0)*i/n, wb=w0+(w1-w0)*(i+1)/n;
-      ctx.beginPath(); ctx.moveTo(X(-wa),Y(a)); ctx.lineTo(X(wb),Y(b)); ctx.moveTo(X(wa),Y(a)); ctx.lineTo(X(-wb),Y(b)); ctx.stroke(); } };
-  cross(.42,.84,.055,.016,7); cross(.22,.38,.098,.066,2); ctx.restore();
-  const r=rng(11); ctx.fillStyle=light;
-  for (let i=0;i<70;i++){ const f=r(), yy=.02+f*.84, half=yy<.19?.2-yy*.5:yy<.38?.105-(yy-.19)*.227:.062-(yy-.38)*.1; const side=r()<.5?-1:1;
-    ctx.globalAlpha=.5+r()*.5; disc(ctx,X(side*half*(.9+r()*.1)),Y(yy),Math.max(1,H*.0035),light); }
-  ctx.globalAlpha=1;
-}
-function drawPAR(ctx,w,h,P){
-  const {hz,L,ax}=P, r=rng(21);
-  bands(ctx,0,hz+L*.1,w,["#0B1533","#1C2B63","#473D86","#935797","#E0858F","#F4B97F"],18);
-  for (let i=0;i<120;i++){ ctx.globalAlpha=.3+r()*.7; disc(ctx,r()*w,r()*hz*.55,r()*1.3+.3,"#FFFFFF"); } ctx.globalAlpha=1;
-  const mx=P.portrait?w*.12:w*.18;
-  hills(ctx,w,hz+L*.02,[L*.02],"#5E4D8C",h,4);
-  ctx.beginPath(); ctx.ellipse(mx,hz+L*.04,L*.34,L*.13,0,Math.PI,TAU); ctx.fillStyle="#5E4D8C"; ctx.fill();
-  const sc=mx, sb=hz-L*.08; ctx.fillStyle="#E9DCEB";
-  ctx.fillRect(sc-L*.07,sb-L*.05,L*.14,L*.05);
-  ctx.beginPath(); ctx.ellipse(sc,sb-L*.05,L*.04,L*.06,0,Math.PI,TAU); ctx.fill();
-  [-.055,.055].forEach(d=>{ ctx.beginPath(); ctx.ellipse(sc+d*L,sb-L*.05,L*.018,L*.03,0,Math.PI,TAU); ctx.fill(); });
-  ctx.fillRect(sc-L*.004,sb-L*.14,L*.008,L*.04); ctx.fillRect(sc+L*.075,sb-L*.12,L*.022,L*.07);
-  eiffel(ctx,ax,hz+L*.12,L*1.08,"#17112F","#FFD27A");
-  let x=-L*.05;
-  while (x<w){
-    const bw=L*(.14+r()*.14), top=hz+L*(.02+r()*.1), roof=L*(.05+r()*.03);
-    ctx.fillStyle="#2B2350"; ctx.fillRect(x,top,bw,h-top);
-    poly(ctx,[[x-L*.005,top],[x+L*.02,top-roof],[x+bw-L*.02,top-roof],[x+bw+L*.005,top]],"#3A3570");
-    ctx.fillStyle="#3A3570"; for (let c=0;c<2;c++) ctx.fillRect(x+bw*(.2+c*.5),top-roof-L*.03,L*.018,L*.03);
-    for (let d=x+L*.04; d<x+bw-L*.04; d+=L*.06){ ctx.fillStyle=r()<.45?"#FFC870":"#453C7A"; ctx.fillRect(d,top-roof*.7,L*.018,roof*.45); }
-    for (let row=top+L*.04; row<h; row+=L*.075) for (let d=x+L*.03; d<x+bw-L*.03; d+=L*.055){ ctx.fillStyle=r()<.3?"#FFC870":"#3A3166"; ctx.fillRect(d,row,L*.022,L*.038); }
-    x+=bw+L*.01;
-  }
-}
-
-/* -- Grindelwald: the Eiger above meadows and chalets -- */
-function mountain(ctx,pts,rock,shade,snowAt,seed){
-  const r=rng(seed);
-  const path=()=>{ ctx.beginPath(); pts.forEach(([x,y],i)=> i?ctx.lineTo(x,y):ctx.moveTo(x,y)); ctx.closePath(); };
-  path(); ctx.fillStyle=rock; ctx.fill();
-  ctx.save(); path(); ctx.clip();
-  let peak=pts.reduce((a,b)=> b[1]<a[1]?b:a);
-  const minX=Math.min(...pts.map(p=>p[0])), maxX=Math.max(...pts.map(p=>p[0]));
-  ctx.beginPath(); ctx.moveTo(peak[0],peak[1]); ctx.lineTo(maxX+10,peak[1]); ctx.lineTo(maxX+10,1e5); ctx.lineTo(peak[0]+ (snowAt-peak[1])*.15,1e5); ctx.closePath(); ctx.fillStyle=shade; ctx.fill();
-  ctx.beginPath(); ctx.moveTo(minX-10,-10); ctx.lineTo(maxX+10,-10);
-  for (let x=maxX+10; x>=minX-10; x-=(maxX-minX)/28){ ctx.lineTo(x, snowAt + (r()-.35)*(snowAt-peak[1])*.5); }
-  ctx.closePath(); ctx.fillStyle="rgba(248,251,253,.95)"; ctx.fill();
-  ctx.beginPath(); ctx.moveTo(peak[0],peak[1]); ctx.lineTo(maxX+10,peak[1]); ctx.lineTo(maxX+10,1e5); ctx.lineTo(peak[0]+(snowAt-peak[1])*.15,1e5); ctx.closePath(); ctx.fillStyle="rgba(120,150,190,.28)"; ctx.fill();
-  ctx.restore();
-}
-function pine(ctx,x,base,H,col){ poly(ctx,[[x,base-H],[x-H*.22,base],[x+H*.22,base]],col); }
-function chalet(ctx,x,base,s){
-  ctx.fillStyle="#7B4527"; ctx.fillRect(x-s*.5,base-s*.62,s,s*.62);
-  ctx.fillStyle="#EFE6D2"; ctx.fillRect(x-s*.5,base-s*.2,s,s*.2);
-  poly(ctx,[[x-s*.72,base-s*.56],[x,base-s*.92],[x+s*.72,base-s*.56],[x+s*.72,base-s*.5],[x,base-s*.84],[x-s*.72,base-s*.5]],"#3A2318");
-  poly(ctx,[[x-s*.5,base-s*.54],[x,base-s*.82],[x+s*.5,base-s*.54]],"#8F552F");
-  [-.28,0,.28].forEach(d=>{ ctx.fillStyle="#F4E9CF"; ctx.fillRect(x+d*s-s*.08,base-s*.47,s*.16,s*.13); ctx.fillStyle="#D33A3A"; ctx.fillRect(x+d*s-s*.1,base-s*.33,s*.2,s*.04); });
-  ctx.fillStyle="#4A2C1A"; ctx.fillRect(x-s*.08,base-s*.2,s*.16,s*.2);
-}
-function drawGRW(ctx,w,h,P){
-  const {hz,L,ax,portrait}=P, r=rng(31);
-  bands(ctx,0,hz,w,["#2A63A8","#4F8BCB","#8DB9E2","#CFE5F2"],14);
-  ctx.fillStyle="rgba(255,255,255,.55)";
-  for (let i=0;i<5;i++){ const cx=r()*w, cy=hz*(.12+r()*.3), cw=L*(.3+r()*.4); ctx.beginPath(); ctx.ellipse(cx,cy,cw,L*.018,0,0,TAU); ctx.fill(); ctx.beginPath(); ctx.ellipse(cx+cw*.3,cy-L*.015,cw*.45,L*.02,0,0,TAU); ctx.fill(); }
-  const far=[[-10,hz]]; for (let x=0;x<=w+40;x+=L*.12) far.push([x,hz-L*(.25+r()*.25)]); far.push([w+40,hz]);
-  mountain(ctx,far,"#9DB2CC","rgba(80,100,140,.25)",hz-L*.35,32);
-  const E=(dx,dy)=>[ax+dx*L,hz-dy*L];
-  mountain(ctx,[E(-1.3,0),E(-.9,.32),E(-.55,.52),E(-.3,.66),E(-.12,.94),E(0,1),E(.07,.93),E(.16,.9),E(.3,.74),E(.5,.62),E(.75,.5),E(1.05,.36),E(1.4,.2),E(1.8,0)],"#56657F","rgba(30,40,62,.35)",hz-L*.62,33);
-  const wx=portrait?-.2:-.95;
-  mountain(ctx,[[ax+(wx-.9)*L,hz],[ax+(wx-.4)*L,hz-L*.5],[ax+(wx-.15)*L,hz-L*.72],[ax+wx*L,hz-L*.78],[ax+(wx+.12)*L,hz-L*.62],[ax+(wx+.5)*L,hz-L*.3],[ax+(wx+.8)*L,hz]],"#617089","rgba(30,40,62,.3)",hz-L*.5,34);
-  hills(ctx,w,hz-L*.02,[L*.04,L*.02],"#2D5A42",h,5);
-  for (let x=-10;x<w+10;x+=L*.028){ const b=hz+L*(.02+r()*.05); pine(ctx,x,b,L*(.07+r()*.06),r()<.5?"#1F4331":"#26503A"); }
-  hills(ctx,w,hz+L*.12,[L*.04,L*.02],"#5E9C44",h,6);
-  hills(ctx,w,hz+L*.26,[L*.05,L*.025],"#7DB84E",h,7);
-  const cs=L*.09; [[.08,.14],[.3,.12],[.55,.18],[.8,.13],[.95,.2]].forEach(([fx,fy])=> chalet(ctx,w*fx,hz+L*fy+cs*.3,cs*(.7+fy)));
-  hills(ctx,w,hz+L*.48,[L*.06,L*.03],"#9CCB5C",h,8);
-  for (let i=0;i<260;i++){ const y=hz+L*.5+r()*(h-hz-L*.5); ctx.globalAlpha=.8; disc(ctx,r()*w,y,Math.max(1.2,L*.004*(1+(y-hz)/L)),["#FFFFFF","#FFE066","#F59BC0","#C6A3FF"][i%4]); }
-  ctx.globalAlpha=1;
-  pine(ctx,w*.02,h,L*.9,"#173826"); pine(ctx,w*.1,h+L*.05,L*.7,"#1C402C"); pine(ctx,w*.98,h,L*.8,"#173826");
-}
-
-/* -- London: Elizabeth Tower, Westminster and the Eye over the Thames -- */
-function bigBen(ctx,cx,base,H,col,face){
-  const X=f=>cx+f*H, Y=f=>base-f*H;
-  ctx.fillStyle=col;
-  ctx.fillRect(X(-.04),Y(.62),H*.08,H*.62);
-  ctx.fillRect(X(-.05),Y(.75),H*.1,H*.14);
-  ctx.fillRect(X(-.043),Y(.83),H*.086,H*.08);
-  poly(ctx,[[X(-.047),Y(.83)],[X(0),Y(.99)],[X(.047),Y(.83)]],col);
-  ctx.fillRect(X(-.003),Y(1.03),H*.006,H*.05);
-  [-.047,.047].forEach(d=> poly(ctx,[[X(d-.008),Y(.75)],[X(d),Y(.8)],[X(d+.008),Y(.75)]],col));
-  disc(ctx,cx,Y(.68),H*.034,face); ctx.strokeStyle=col; ctx.lineWidth=Math.max(1.2,H*.004);
-  ctx.beginPath(); ctx.moveTo(cx,Y(.68)); ctx.lineTo(cx,Y(.705)); ctx.moveTo(cx,Y(.68)); ctx.lineTo(X(.018),Y(.675)); ctx.stroke();
-  ctx.globalAlpha=.25; ctx.fillStyle=face; for (let i=0;i<7;i++){ ctx.fillRect(X(-.025),Y(.6-i*.08),H*.01,H*.05); ctx.fillRect(X(.015),Y(.6-i*.08),H*.01,H*.05); } ctx.globalAlpha=1;
-}
-function drawLON(ctx,w,h,P){
-  const {hz,L,ax,portrait}=P, r=rng(41);
-  bands(ctx,0,hz,w,["#39456B","#5F6D96","#9C8FAE","#E0A98A","#F4CF97"],16);
-  disc(ctx,portrait?w*.3:w*.42,hz-L*.14,L*.13,"rgba(255,236,190,.85)");
-  ctx.fillStyle="#8683A5";
-  const fx=portrait?w*.72:w*.3;
-  poly(ctx,[[fx-L*.05,hz],[fx+L*.005,hz-L*.5],[fx+L*.05,hz]],"#8683A5");
-  ctx.beginPath(); ctx.ellipse(fx-L*.3,hz-L*.14,L*.06,L*.08,0,Math.PI,TAU); ctx.fill(); ctx.fillRect(fx-L*.37,hz-L*.14,L*.14,L*.14); ctx.fillRect(fx-L*.305,hz-L*.26,L*.01,L*.05);
-  ctx.beginPath(); ctx.ellipse(fx+L*.18,hz-L*.12,L*.035,L*.12,0,0,TAU); ctx.fill();
-  for (let x=0;x<w;){ const bw=L*(.04+r()*.06), bh=L*(.03+r()*.09); ctx.fillRect(x,hz-bh,bw,bh+1); x+=bw; }
-  const ex=ax+L*(portrait?.55:.75), ey=hz-L*.3, er=L*.3, col="#262A44";
-  ctx.strokeStyle=col; ctx.lineWidth=Math.max(2,L*.008); ctx.beginPath(); ctx.arc(ex,ey,er,0,TAU); ctx.stroke();
-  ctx.lineWidth=Math.max(1,L*.0025); ctx.beginPath(); ctx.arc(ex,ey,er*.93,0,TAU); ctx.stroke();
-  for (let i=0;i<32;i++){ const a=i/32*TAU; ctx.beginPath(); ctx.moveTo(ex,ey); ctx.lineTo(ex+Math.cos(a)*er,ey+Math.sin(a)*er); ctx.stroke(); ctx.fillStyle=col; ctx.beginPath(); ctx.ellipse(ex+Math.cos(a)*er*1.04,ey+Math.sin(a)*er*1.04,L*.011,L*.008,a,0,TAU); ctx.fill(); }
-  ctx.lineWidth=Math.max(2,L*.012); ctx.beginPath(); ctx.moveTo(ex-L*.1,hz+L*.02); ctx.lineTo(ex,ey); ctx.lineTo(ex+L*.1,hz+L*.02); ctx.stroke();
-  const pc="#20233A", left=ax-L*1.05, right=ax+L*.06;
-  ctx.fillStyle=pc; ctx.fillRect(left,hz-L*.19,right-left,L*.2);
-  for (let x=left; x<right; x+=L*.045){ ctx.fillRect(x,hz-L*.23,L*.012,L*.05); poly(ctx,[[x-L*.002,hz-L*.23],[x+L*.006,hz-L*.26],[x+L*.014,hz-L*.23]],pc); }
-  ctx.fillRect(ax-L*.5,hz-L*.3,L*.05,L*.12); poly(ctx,[[ax-L*.5,hz-L*.3],[ax-L*.475,hz-L*.36],[ax-L*.45,hz-L*.3]],pc);
-  const vx=portrait?ax-L*.85:ax-L*.98; ctx.fillRect(vx,hz-L*.56,L*.11,L*.56);
-  [0,.11].forEach(d=>{ ctx.fillRect(vx+d*L-L*.012,hz-L*.62,L*.024,L*.07); poly(ctx,[[vx+d*L-L*.014,hz-L*.62],[vx+d*L,hz-L*.66],[vx+d*L+L*.014,hz-L*.62]],pc); });
-  ctx.globalAlpha=.18; ctx.fillStyle="#F4CF97"; for (let x=left+L*.02;x<right;x+=L*.03) ctx.fillRect(x,hz-L*.15,L*.008,L*.1); ctx.globalAlpha=1;
-  bigBen(ctx,ax,hz+1,L,pc,"#F6E3AE");
-  const rb=hz+L*.16; bands(ctx,hz,rb,w,["#B58F92","#6E6C8E","#4B5277"],6);
-  ctx.fillStyle="rgba(246,207,151,.55)"; for (let i=0;i<24;i++){ ctx.fillRect(r()*w,hz+L*.015+r()*(rb-hz-L*.02),L*(.03+r()*.08),Math.max(1.5,L*.004)); }
-  ctx.fillStyle="#1B1E33"; ctx.fillRect(0,rb,w,h-rb);
-  ctx.fillStyle="#2A2E4A"; ctx.fillRect(0,rb,w,L*.035);
-  const bx=portrait?w*.12:w*.56, by=rb+L*.035, bs=L*.3;
-  ctx.fillStyle="#D4262F"; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(bx,by-bs*.5,bs*.95,bs*.46,bs*.05) : ctx.rect(bx,by-bs*.5,bs*.95,bs*.46); ctx.fill();
-  ctx.fillStyle="#F6D9A8"; for (let i=0;i<5;i++){ ctx.fillRect(bx+bs*(.06+i*.17),by-bs*.44,bs*.13,bs*.1); if(i<4) ctx.fillRect(bx+bs*(.2+i*.17),by-bs*.27,bs*.13,bs*.1); }
-  ctx.fillStyle="#F2EDE4"; ctx.fillRect(bx,by-bs*.31,bs*.95,bs*.018);
-  ctx.fillStyle="#12131F"; disc(ctx,bx+bs*.2,by-bs*.04,bs*.065,"#12131F"); disc(ctx,bx+bs*.78,by-bs*.04,bs*.065,"#12131F");
-  for (let x=w*.04;x<w;x+=L*.55){ ctx.fillStyle="#0F1120"; ctx.fillRect(x,rb-L*.12,L*.01,L*.16); disc(ctx,x+L*.005,rb-L*.13,L*.018,"#FFD48A"); disc(ctx,x+L*.005,rb-L*.13,L*.045,"rgba(255,212,138,.18)"); }
-}
-
-/* -- Rome: the Colosseum at golden hour with umbrella pines -- */
-function stonePine(ctx,x,base,H,lean,trunk,leaf,leaf2){
-  ctx.strokeStyle=trunk; ctx.lineCap="round"; ctx.lineWidth=H*.035;
-  ctx.beginPath(); ctx.moveTo(x,base); ctx.quadraticCurveTo(x+lean*.3,base-H*.6,x+lean,base-H*.82); ctx.stroke();
-  const cx=x+lean, cy=base-H*.9, r=rng(Math.round(x));
-  for (let i=0;i<7;i++){ ctx.fillStyle=i<4?leaf:leaf2; ctx.beginPath(); ctx.ellipse(cx+(r()-.5)*H*.55,cy+(i<4?0:-H*.05)+(r()-.5)*H*.06,H*(.18+r()*.12),H*(.07+r()*.03),0,0,TAU); ctx.fill(); }
-}
-function colosseum(ctx,cx,base,Wd,Hc){
-  const x0=cx-Wd/2, x1=cx+Wd/2;
-  const top=x=>{ const f=(x-x0)/Wd; if (f<.56) return Hc; if (f<.62) return Hc*.82; if (f<.7) return Hc*.66; if (f<.8) return Hc*.58; return Hc*.5; };
-  ctx.beginPath(); ctx.moveTo(x0+Wd*.4,base-Hc*.3); ctx.lineTo(x0+Wd*.45,base-Hc*.92); ctx.lineTo(x1-Wd*.08,base-Hc*.78); ctx.lineTo(x1-Wd*.02,base-Hc*.3); ctx.closePath(); ctx.fillStyle="#9A5238"; ctx.fill();
-  ctx.fillStyle="rgba(60,20,20,.35)"; for (let i=0;i<9;i++){ const ax=x0+Wd*(.6+i*.04); ctx.fillRect(ax,base-Hc*.74+i*Hc*.01,Wd*.018,Hc*.12); }
-  ctx.beginPath(); ctx.moveTo(x0,base); ctx.lineTo(x0,base-Hc);
-  const steps=[[.56,1],[.56,.82],[.62,.82],[.62,.66],[.7,.66],[.7,.58],[.8,.58],[.8,.5],[1,.5]];
-  steps.forEach(([f,t])=> ctx.lineTo(x0+f*Wd,base-t*Hc)); ctx.lineTo(x1,base); ctx.closePath();
-  const g=ctx.createLinearGradient(x0,0,x1,0); g.addColorStop(0,"#B86E45"); g.addColorStop(.35,"#E2A06A"); g.addColorStop(.7,"#D48E5B"); g.addColorStop(1,"#A95F3C");
-  ctx.fillStyle=g; ctx.fill();
-  const tierH=Hc*.24, bays=15, bw=Wd/bays;
-  for (let tier=0;tier<3;tier++){
-    const yb=base-tier*tierH;
-    ctx.fillStyle="#F0BC85"; ctx.fillRect(x0,yb-tierH,Wd*( (tier===0)?1:tier===1?.8:.62 ),Hc*.018);
-    for (let b=0;b<bays;b++){
-      const ax=x0+b*bw+bw*.2, aw=bw*.6, ah=tierH*.62, atop=yb-tierH*.12-ah;
-      if (base-(yb-tierH) > top(ax+aw/2)+1) continue; // wall has collapsed here
-      ctx.fillStyle="#5A2A22"; ctx.beginPath(); ctx.moveTo(ax,yb-tierH*.12); ctx.lineTo(ax,atop+aw/2); ctx.arc(ax+aw/2,atop+aw/2,aw/2,Math.PI,0); ctx.lineTo(ax+aw,yb-tierH*.12); ctx.closePath(); ctx.fill();
-      ctx.fillStyle="rgba(255,210,150,.18)"; ctx.fillRect(ax-bw*.12,yb-tierH*.9,bw*.07,tierH*.78);
-    }
-  }
-  const ay=base-3*tierH; ctx.fillStyle="#F0BC85"; ctx.fillRect(x0,ay,Wd*.56,Hc*.018);
-  for (let b=0;b<bays*.56;b+=2){ ctx.fillStyle="#6A3226"; ctx.fillRect(x0+b*bw+bw*.4,ay-Hc*.16,bw*.2,Hc*.07); }
-  ctx.fillStyle="#C98052"; ctx.fillRect(x0,base-Hc,Wd*.56,Hc*.02);
-}
-function drawROM(ctx,w,h,P){
-  const {hz,L,ax,portrait}=P, r=rng(51);
-  bands(ctx,0,hz,w,["#7C3C75","#C45A67","#EC8752","#F6B868","#FBD892"],16);
-  const sx=portrait?w*.75:w*.28; disc(ctx,sx,hz-L*.32,L*.12,"#FFE6A8"); disc(ctx,sx,hz-L*.32,L*.18,"rgba(255,230,168,.15)");
-  const dx=portrait?w*.12:w*.12, dcol="#B7667B";
-  hills(ctx,w,hz-L*.03,[L*.025,L*.012],"#C0747E",h,9);
-  ctx.fillStyle=dcol; ctx.fillRect(dx-L*.09,hz-L*.14,L*.18,L*.12);
-  ctx.beginPath(); ctx.ellipse(dx,hz-L*.14,L*.075,L*.11,0,Math.PI,TAU); ctx.fill();
-  ctx.fillRect(dx-L*.012,hz-L*.29,L*.024,L*.05); disc(ctx,dx,hz-L*.3,L*.01,dcol);
-  ctx.fillRect(dx-L*.3,hz-L*.07,L*.6,L*.07);
-  for (let x=0;x<w;x+=L*(.03+r()*.03)){ ctx.fillStyle="#A65A64"; ctx.fillRect(x,hz-L*(.02+r()*.05),L*.05,L*.08); }
-  for (let i=0;i<9;i++){ const x=r()*w, H=L*(.2+r()*.12); ctx.fillStyle="#6B4A3A"; ctx.beginPath(); ctx.ellipse(x,hz-H/2+L*.02,L*.02,H/2,0,0,TAU); ctx.fill(); }
-  const Wd=Math.min(L*1.55,w*1.08);
-  ctx.fillStyle="#8F4F37"; ctx.fillRect(0,hz,w,h-hz);
-  colosseum(ctx,ax,hz+L*.06,Wd,L*.58);
-  bands(ctx,hz+L*.06,h,w,["#7A3F2C","#5E2F24","#3E1F1A"],6);
-  ctx.fillStyle="rgba(255,210,150,.12)"; for (let i=0;i<30;i++) ctx.fillRect(r()*w,hz+L*.1+r()*(h-hz),L*(.05+r()*.1),Math.max(1.5,L*.004));
-  stonePine(ctx,w*.03,h,L*1.05,L*.08,"#2E1C14","#2F3A1E","#465228");
-  stonePine(ctx,w*(portrait?.95:.97),h,L*.9,-L*.1,"#2E1C14","#2F3A1E","#465228");
-  if (!portrait) stonePine(ctx,w*.86,h+L*.1,L*.8,-L*.05,"#3A2418","#35421F","#4E5B2B");
-}
-
-const DRAW = { barcelona:drawBCN, paris:drawPAR, grindelwald:drawGRW, london:drawLON, rome:drawROM };
-function paint(section){
-  const cv = section.querySelector("canvas.poster"); if (!cv) return;
-  const w = section.clientWidth, h = section.clientHeight; if (!w || !h) return;
-  const key = w + "x" + h; if (cv.dataset.size === key) return; cv.dataset.size = key;
-  const dpr = Math.min(2, window.devicePixelRatio || 1);
-  cv.width = Math.round(w*dpr); cv.height = Math.round(h*dpr);
-  const ctx = cv.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0);
-  const portrait = h > w*1.05;
-  const P = portrait
-    ? (() => { const L = Math.min(w*.8, h*.34), textTop = section.querySelector(".stop").offsetTop + section.querySelector(".city-body").offsetTop;
-        return { portrait, hz:Math.max(L*1.1, Math.min(h*.6, textTop - 8)), L, ax:w*.55 }; })()
-    : { portrait, hz:h*.66, L:h*.5, ax:w*.68 };
-  DRAW[section.id](ctx,w,h,P); grain(ctx,w,h);
-}
-function mountPosters(){
-  document.querySelectorAll(".city").forEach((sec,i) => {
-    const photo = CITIES[i].photo;
-    if (photo){ // optional real photo; falls back to the drawn poster if it fails to load
-      const img = new Image(); img.className="poster"; img.alt=""; img.src=photo;
-      img.onload = () => sec.querySelector("canvas.poster")?.replaceWith(img);
-    }
-    paint(sec);
-  });
-  let t; const ro = new ResizeObserver(() => { clearTimeout(t); t = setTimeout(() => document.querySelectorAll(".city").forEach(paint), 120); });
-  document.querySelectorAll(".city").forEach(sec => ro.observe(sec));
-}
-
 /* ================= fit big type to its column ================= */
 function fitText(){
   document.querySelectorAll("[data-fit]").forEach(el => {
@@ -769,9 +474,11 @@ function trackActive(){
   document.querySelectorAll(".city, #cost").forEach(s => io.observe(s));
 }
 
-drawMap(); update(); fitText(); mountPosters(); trackActive();
+$("credits").innerHTML = "Photos from Unsplash, used under the Unsplash License: " + CITIES.map(c =>
+  `${c.name} by <a href="https://unsplash.com/photos/${c.photo.id}?utm_source=barcelona_to_rome&utm_medium=referral" target="_blank" rel="noopener">${c.photo.by}</a>`).join(" · ");
+drawMap(); update(); fitText(); trackActive();
 let ft; addEventListener("resize", () => { clearTimeout(ft); ft = setTimeout(fitText, 100); });
-if (document.fonts) document.fonts.ready.then(() => { fitText(); document.querySelectorAll(".city canvas").forEach(c => delete c.dataset.size); document.querySelectorAll(".city").forEach(paint); });
+if (document.fonts) document.fonts.ready.then(fitText);
 })();
 </script>
 </body>
